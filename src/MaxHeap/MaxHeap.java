@@ -10,6 +10,11 @@ public class MaxHeap<E extends Comparable<E>> {
         data = new Array<E>();
     }
 
+    public MaxHeap(E[] arr) {
+        data = new Array<E>(arr);
+        heapify(data);
+    }
+
     public int getSize() {
         return data.getSize();
     }
@@ -81,6 +86,7 @@ public class MaxHeap<E extends Comparable<E>> {
         return ret;
     }
 
+    // 元素下沉操作，将堆顶元素放到合适的位置
     private void siftDown(int k) {
        while (data.getSize() > leftChild(k)) {
            int j = leftChild(k); // j 代表左右两个中的最大值
@@ -98,14 +104,42 @@ public class MaxHeap<E extends Comparable<E>> {
        }
     }
 
-    public static void main(String [] args) {
-        int n = 1000000;
+    // 取出堆中的最大元素 并且替换成元素e
+    public E replaceMax(E e) {
+        E ret = findMax();
 
-        MaxHeap<Integer> maxHeap = new MaxHeap<Integer>();
+        data.set(0, e);
+        siftDown(0);
 
-        Random random = new Random();
-        for (int i = 0; i < n; i++) {
-            maxHeap.add(random.nextInt(Integer.MAX_VALUE));
+        return ret;
+    }
+
+    // 将任意数组整理成堆的形状
+    public void heapify(Array arr) {
+        int j = arr.getSize() - 1;
+        if (j < 0) {
+            throw new IllegalArgumentException("Error array length < 0");
+        }
+        int i = parent(j);
+
+        while (i >= 0) {
+            siftDown(i);
+            i--;
+        }
+    }
+
+    private static double testHeap(Integer[] testData, boolean isHeapify) {
+        long startTime = System.nanoTime();
+        int n = testData.length;
+
+        MaxHeap<Integer> maxHeap;
+        if (isHeapify) {
+            maxHeap = new MaxHeap<Integer>(testData);
+        } else {
+            maxHeap = new MaxHeap<Integer>();
+            for (int i = 0; i < n; i ++) {
+                maxHeap.add(testData[i]);
+            }
         }
 
         int[] arr = new int[n];
@@ -121,5 +155,36 @@ public class MaxHeap<E extends Comparable<E>> {
         }
 
         System.out.println("Test maxHeap completed");
+
+
+        long endTime = System.nanoTime();
+
+        return (endTime - startTime) / 100000000.0;
     }
+
+    public static void main(String [] args) {
+        int n = 10000000;
+
+        MaxHeap<Integer> maxHeap = new MaxHeap<Integer>();
+
+        Random random = new Random();
+
+        Integer[] testData = new Integer[n];
+
+        for (int i = 0; i < n; i++) {
+            testData[i] = random.nextInt(Integer.MAX_VALUE);
+        }
+
+        double time1 = testHeap(testData, true);
+        System.out.println("with hepify" + time1);
+        double time2 = testHeap(testData, false);
+        System.out.println("without hepify" + time2);
+
+
+        /**
+         * 测试heapify和将数组中的元素一个一个加入到空堆中的性能区别
+         */
+
+    }
+
 }
