@@ -81,6 +81,34 @@ public class SegmentTree<E> {
         return merger.merge(leftResult, rightResult);
     }
 
+    // 将data中索引为index的元素更新为e，同步更新tree
+    public void set(int index, E e) {
+        if (index < 0 || index > data.length) {
+            throw new IllegalArgumentException("argument index illegal");
+        }
+        data[index] = e;
+        updateSegmentTree(0, 0, data.length - 1, index, e);
+    }
+
+    // 在以treeIndex为根的线段树中更新index值为e
+    private void updateSegmentTree(int treeIndex, int l, int r, int index, E e) {
+        if (l == r) {
+            tree[treeIndex] = e;
+            return;
+        }
+
+        int mid = l + ( r - l ) / 2;
+        int leftChildIndex = leftChild(treeIndex);
+        int rightChildIndex = rightChild(treeIndex);
+
+        if (index >= mid + 1) { // 如果index 》 mid 则index在右边
+            updateSegmentTree(rightChildIndex, mid + 1, r, index, e);
+        } else {
+            updateSegmentTree(leftChildIndex, l, mid, index, e);
+        }
+        tree[treeIndex] = merger.merge(tree[leftChildIndex], tree[rightChildIndex]);
+    }
+
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
