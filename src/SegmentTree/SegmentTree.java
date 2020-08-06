@@ -51,6 +51,36 @@ public class SegmentTree<E> {
         return 2 * index + 2;
     }
 
+    // 查询[queryLeft, queryRight]区间的值
+    public E query(int queryLeft, int queryRight) {
+        if (queryLeft < 0 || queryRight < queryLeft || queryRight > data.length) {
+            throw new IllegalArgumentException("arguments over limits");
+        }
+        return querySegmentTree(0, 0, data.length - 1, queryLeft, queryRight);
+    }
+
+    // 在以tree index为根的线段树中[left, right]区间范围里 搜索区间 [queryLeft, queryRight]的值
+    private E querySegmentTree(int treeIndex, int left, int right, int queryLeft, int queryRight) {
+        if (left == queryLeft && right == queryRight) {
+            return tree[treeIndex];
+        }
+        int mid = left + ( right - left ) / 2;
+
+        int leftChildIndex = leftChild(treeIndex);
+        int rightChildIndex = rightChild(treeIndex);
+
+        if (queryLeft >= mid + 1) {
+            return querySegmentTree(rightChildIndex, mid + 1, right, queryLeft, queryRight);
+        }
+        if (queryRight <= mid) {
+            return querySegmentTree(leftChildIndex, left, mid, queryLeft, queryRight);
+        }
+
+        E leftResult = querySegmentTree(leftChildIndex, left, mid, queryLeft, mid);
+        E rightResult = querySegmentTree(rightChildIndex, mid + 1, right, mid + 1, queryRight);
+        return merger.merge(leftResult, rightResult);
+    }
+
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
@@ -69,6 +99,5 @@ public class SegmentTree<E> {
         res.append(']');
         return res.toString();
     }
-
 
 }
