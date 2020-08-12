@@ -42,7 +42,11 @@ public class Test {
 
         UnionFind3 unionFind3 = new UnionFind3(size);
         UnionFind4 unionFind4 = new UnionFind4(size);
+        UnionFind5 unionFind5 = new UnionFind5(size);
         System.out.println("unionFind3 time: " + testUF(unionFind3, m) + 's');
         System.out.println("unionFind4 time: " + testUF(unionFind4, m) + 's');
+        System.out.println("unionFind5 time: " + testUF(unionFind5, m) + 's');
+        System.out.println("unionFind3 time: end");
+
     }
 }
