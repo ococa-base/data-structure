@@ -3,7 +3,7 @@ package UnionFind;
 import MaxHeap.Array;
 
 /**
- * 并查集
+ * 并查集（基于数组）
  */
 public class UnionFind implements UF {
 

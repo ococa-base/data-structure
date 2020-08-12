@@ -39,7 +39,10 @@ public class Test {
 
         UnionFind2 unionFind2 = new UnionFind2(size);
 
+        UnionFind3 unionFind3 = new UnionFind3(size);
+
         System.out.println("unionFind time: " + testUF(unionFind, m) + 's');
         System.out.println("unionFind2 time: " + testUF(unionFind2, m) + 's');
+        System.out.println("unionFind3 time: " + testUF(unionFind3, m) + 's');
     }
 }

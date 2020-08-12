@@ -1,17 +1,20 @@
 package UnionFind;
 
 /**
- * 并查集（基于树形结构）
+ * 并查集（优化树形结构size判断）
  */
-public class UnionFind2 implements UF {
+public class UnionFind3 implements UF {
 
     private int [] parents;
+    private int [] size; // size[i] 表示以i为根的集合中元素的个数
 
-    public UnionFind2(int size) {
+    public UnionFind3(int size) {
         parents = new int[size];
+        this.size = new int[size];
 
         for (int i = 0; i < size; i++) {
             parents[i] = i;
+            this.size[i] = 1;
         }
     }
 
@@ -30,8 +33,17 @@ public class UnionFind2 implements UF {
         int qRoot = find(q);
         if (pRoot == qRoot) {
             return;
-        } else {
+        }
+
+        // 根据两个元素的所在树的元素的个数不同判断合并的方向，
+        // 将元素个数少的集合合并到元素个数多的集合上面
+        // p节点深度大于q节点，q的根节点指向p节点根节点
+        if (size[pRoot] > size[qRoot]) {
             parents[qRoot] = pRoot;
+            size[pRoot] += size[qRoot];
+        } else {
+            parents[pRoot] = qRoot;
+            size[qRoot] += size[pRoot];
         }
     }
 
