@@ -32,17 +32,17 @@ public class Test {
     }
 
     public static void main(String [] args) {
-        int size = 100000;
-        int m = 100000;
+        int size = 1000000;
+        int m = 10000000;
 
-        UnionFind unionFind = new UnionFind(size);
-
-        UnionFind2 unionFind2 = new UnionFind2(size);
+//        UnionFind unionFind = new UnionFind(size);
+//        UnionFind2 unionFind2 = new UnionFind2(size);
+//        System.out.println("unionFind time: " + testUF(unionFind, m) + 's');
+//        System.out.println("unionFind2 time: " + testUF(unionFind2, m) + 's');
 
         UnionFind3 unionFind3 = new UnionFind3(size);
-
-        System.out.println("unionFind time: " + testUF(unionFind, m) + 's');
-        System.out.println("unionFind2 time: " + testUF(unionFind2, m) + 's');
+        UnionFind4 unionFind4 = new UnionFind4(size);
         System.out.println("unionFind3 time: " + testUF(unionFind3, m) + 's');
+        System.out.println("unionFind4 time: " + testUF(unionFind4, m) + 's');
     }
 }
